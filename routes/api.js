@@ -6,7 +6,7 @@ const translate = require('translate-google')
 const fs = require('fs')
 const Jimp = require('jimp')
 const FormData = require('form-data')
-const baseUrl = 'https://tools.betabotz.org'
+const baseUrl = 'https://tools.api.betabotz.org'
 const { toanime, tozombie } = require(__path + "/lib/turnimg.js")
 const request = require('request')
 const { openai } = require(__path + "/lib/openai.js")
@@ -24,7 +24,7 @@ const isNumber = require('is-number');
 const router = express.Router()
 const ryzen = require("../lib/listdl")
 var error = __path + '/view/error.html'
-let creator = 'Shirokami Ryzen'
+let creator = 'WANZOFC - DEV'
 loghandler = {
 	error: {
 		status: false,
@@ -57,15 +57,15 @@ loghandler = {
 		creator: creator
 	}
 }
-/**router.get('/testing', (req, res, next) => {
+router.get('/testing', (req, res, next) => {
 	res.json({
 		status: true,
 		code: 200,
 		creator: creator
 	})
-})**/
+})
 // *** AI ***
-router.get('/ai/ryzenai', async (req, res, next) => {
+router.get('/ai/wanzofc', async (req, res, next) => {
 	let text = req.query.text
 	if (!text) return res.json(loghandler.nottext)
 	openai(text, 'Date.now()')
