@@ -103,6 +103,7 @@ router.get('/ai/openai', async (req, res, next) => {
 	fetch(encodeURI(`https://api.betabotz.eu.org/api/search/openai-chat?text=${text}&apikey=CMHNwRjp`))
 		.then(response => response.json())
 		.then(async data => {
+			let message = data.result
 			if (data.status !== true) {
 				res.json(loghandler.error)
 			} else {
@@ -121,8 +122,9 @@ router.get('/ai/openai', async (req, res, next) => {
 router.get('/dowloader/fbdown', async (req, res) => {
 	let url = req.query.url
 	if (!url) return res.json(loghandler.noturl)
-	ryzen.fbdown(url)
-		.then(async data => {
+	fetch(encodeURI(`https://api.betabotz.eu.org/api/download/fbdown?url=https://www.facebook.com/watch/?v=1393572814172251&apikey=CMHNwRjp`)
+	      .then(response => response.json())
+	      .then(async data => {
 			if (!data.Normal_video) return res.json(loghandler.error)
 			res.json({
 				status: true,
