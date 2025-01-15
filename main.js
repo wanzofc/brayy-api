@@ -7,7 +7,7 @@ const PORT = 3000;
 
 const mainrouter = require("./routes/mainrouter.js"),
 	apirouter = require("./routes/api.js");
-const SECRET_KEY = "6LfmBbgqAAAAADUUDsvnYqXtUWcsOk5MOnw491gg";
+const SECRET_KEY = "6LfhB7gqAAAAAA8L5KtoSqbx6QbDjiV_jejKzlGp";
 app.use(bodyParser.urlencoded({ extended: true }));
 app.post("/verify-captcha", async (req, res) => {
   const token = req.body["g-recaptcha-response"]; // Ambil token dari form
