@@ -101,7 +101,7 @@ router.get('/ai/bard', async (req, res, next) => {
 router.get('/ai/openai', async (req, res, next) => {
 	let text = req.query.text
 	if (!text) return res.json(loghandler.nottext)
-	fetch(encodeURI(`https://api.betabotz.eu.org/api/search/openai-chat?text=${text}&apikey=CMHNwRjp`))
+	fetch(encodeURI(`https://gemini-production.up.railway.app/`))
 		.then(response => response.json())
 		.then(async data => {
 			if (data.status !== true) {
