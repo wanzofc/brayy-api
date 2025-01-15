@@ -121,8 +121,8 @@ router.get('/ai/openai', async (req, res, next) => {
 router.get('/dowloader/fbdown', async (req, res) => {
 	let url = req.query.url
 	if (!url) return res.json(loghandler.noturl)
-	fetch(encodeURI(`https://api.betabotz.eu.org/api/download/fbdown?url=https://www.facebook.com/watch/?v=1393572814172251&apikey=CMHNwRjp`)
-	      .then(async data => {
+	ryzen.twitter(url)
+		.then(async data => {
 			if (!data.Normal_video) return res.json(loghandler.error)
 			res.json({
 				status: true,
