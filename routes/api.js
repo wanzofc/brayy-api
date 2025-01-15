@@ -17,6 +17,7 @@ const { shortText } = require("limit-text-js")
 const TinyURL = require('tinyurl');
 const emoji = require("emoji-api");
 const isUrl = require("is-url")
+const w5botapi = require('w5-textmaker');
 const { ytMp4, ytMp3 } = require(__path + '/lib/y2mate')
 const BitlyClient = require('bitly').BitlyClient
 const { fetchJson, getBuffer } = require(__path + '/lib/myfunc')
