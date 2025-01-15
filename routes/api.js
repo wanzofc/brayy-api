@@ -103,7 +103,6 @@ router.get('/ai/openai', async (req, res, next) => {
 	fetch(encodeURI(`https://api.betabotz.eu.org/api/search/openai-chat?text=${text}&apikey=CMHNwRjp`))
 		.then(response => response.json())
 		.then(async data => {
-			let message = data.result
 			if (data.status !== true) {
 				res.json(loghandler.error)
 			} else {
