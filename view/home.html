@@ -17,6 +17,22 @@
   <link rel="stylesheet" href="assets/css/templatemo-chain-app-dev.css">
   <link rel="stylesheet" href="assets/css/animated.css">  
   <link rel="stylesheet" href="assets/css/owl.css">
+  <styles>
+    .auth-buttons {
+  position: absolute;
+  top: 10px;
+  left: 10px;
+  display: flex;
+  gap: 10px;
+}
+
+.auth-buttons .btn {
+  font-size: 12px;
+  padding: 5px 10px;
+  border-radius: 5px;
+}
+    
+  </styles>
 </head>
 <body>
   <div id="js-preloader" class="js-preloader">
@@ -30,27 +46,32 @@
     </div>
   </div>
   <header class="header-area header-sticky wow slideInDown" data-wow-duration="0.75s" data-wow-delay="0s">
-    <div class="container">
-      <div class="row">
-        <div class="col-12">
-          <nav class="main-nav">
-            <a href="/" class="logo">
-              <img src="https://upcdn.io/kW15cM4/raw/uploads/2025/01/15/4k4LdRvr4C-Screenshot_2025-01-15-07-50-42-97_40deb401b9ffe8e1df2f1cc5ba480b12-removebg-preview.png" alt="" style="width: 30%; height: auto;">
-            </a>
-            <ul class="nav">
-              <li class="scroll-to-section"><a href="#top" class="active">Home</a></li>
-              <li class="scroll-to-section"><a href="#services">Services</a></li>
-              <li class="scroll-to-section"><a href="#about">About</a></li>
-              <li class="scroll-to-section"><a href="#clients">Clients</a></li>
-            </ul>
-            <a class='menu-trigger'>
-              <span>Menu</span>
-            </a>
-          </nav>
-        </div>
+  <div class="container">
+    <div class="row">
+      <div class="col-12">
+        <nav class="main-nav">
+          <a href="/" class="logo">
+            <img src="https://upcdn.io/kW15cM4/raw/uploads/2025/01/15/4k4LdRvr4C-Screenshot_2025-01-15-07-50-42-97_40deb401b9ffe8e1df2f1cc5ba480b12-removebg-preview.png" alt="" style="width: 30%; height: auto;">
+          </a>
+          <ul class="nav">
+            <li class="scroll-to-section"><a href="#top" class="active">Home</a></li>
+            <li class="scroll-to-section"><a href="#services">Services</a></li>
+            <li class="scroll-to-section"><a href="#about">About</a></li>
+            <li class="scroll-to-section"><a href="#clients">Clients</a></li>
+          </ul>
+          <a class='menu-trigger'>
+            <span>Menu</span>
+          </a>
+          <div class="auth-buttons">
+            <a href="/login" class="btn btn-outline-primary btn-sm">Login</a>
+            <a href="/signup" class="btn btn-primary btn-sm">Signup</a>
+          </div>
+        </nav>
       </div>
     </div>
-  </header>
+  </div>
+</header>
+
   <div class="main-banner wow fadeIn" id="top" data-wow-duration="1s" data-wow-delay="0.5s">
     <div class="container">
       <div class="row">
