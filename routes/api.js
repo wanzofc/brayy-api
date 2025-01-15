@@ -515,7 +515,7 @@ router.get('/textpro/marvel-studios', async (req, res, next) => {
 	var text2 = req.query.text2
 	if (!text1) return res.json({ status: false, creator: `${creator}`, message: "[!] enter text parameter!" })
 	if (!text2) return res.json({ status: false, creator: `${creator}`, message: "[!] enter text2 parameter!" })
-	ryzen.textpro("https://textpro.me/create-logo-style-marvel-studios-online-971.html", [text1, text2])
+	ryzen.textpro("https://photooxy.com/logo-and-text-effects/make-tik-tok-text-effect-375.html", [text1, text2])
 		.then((data) => {
 			res.set({ 'Content-Type': 'image/png' })
 			res.send(data)
