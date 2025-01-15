@@ -567,7 +567,7 @@ router.get('/photooxy/metallic', async (req, res, next) => {
 router.get('/photooxy/naruto', async (req, res, next) => {
 	var text1 = req.query.text
 	if (!text1) return res.json({ status: false, creator: `${creator}`, message: "[!] enter text parameter!" })
-	ryzen.photooxy("https://photooxy.com/manga-and-anime/make-naruto-banner-online-free-378.html", [text1])
+	ryzen.photooxy("https://raw.githubusercontent.com/radhin123/Databasee/refs/heads/main/Random%20Anime/elaina.json", [text1])
 		.then((data) => {
 			res.set({ 'Content-Type': 'image/png' })
 			res.send(data)
@@ -1063,7 +1063,7 @@ router.get('/random/animegif', async (req, res) => {
 		})
 })
 router.get('/random/animestick', async (req, res) => {
-	fetch(encodeURI(`https://raw.githubusercontent.com/Kira-Master/database/main/sticker/animestick.json`))
+	fetch(encodeURI(`https://raw.githubusercontent.com/radhin123/Databasee/refs/heads/main/Random%20Anime/elaina.json`))
 		.then(response => response.json())
 		.then(async data => {
 			let hasil = data[Math.floor(Math.random() * data.length)]
