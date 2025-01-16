@@ -489,6 +489,22 @@
 			</div>
 		</div>
 	</div>
+	<script>
+!function(w, d, s, ...args){
+  var div = d.createElement('div');
+  div.id = 'aichatbot';
+  d.body.appendChild(div);
+  w.chatbotConfig = args;
+  var f = d.getElementsByTagName(s)[0],
+  j = d.createElement(s);
+  j.defer = true;
+  j.type = 'module';
+  j.src = 'https://aichatbot.sendbird.com/index.js';
+  f.parentNode.insertBefore(j, f);
+}(window, document, 'script', '8A66AF2B-CC7F-4D8F-9211-DBA26082FC59', 'zJ62NmWQeSbLXlcbNfvwV', {
+  apiHost: 'https://api-cf-us-3.sendbird.com',
+});
+</script>
 	<script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-7641680856061316"
      crossorigin="anonymous"></script>
 	<script src="vendors/scripts/core.js"></script>
