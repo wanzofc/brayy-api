@@ -1,0 +1,94 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <title>DAFTAR - API REST WANZ</title>
+      <link rel="stylesheet" href="styles.css" />
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/gsap.min.js"></script>
+</head>
+<body>
+    <div class="login">
+        <img src="profile.png" alt="Profile Icon" />
+        <h3>API WANZOFC</h3>
+        <h2>AYO DAFTAR</h2>
+        <form class="login-form" id="registrationForm">
+         <input type="email" placeholder="isi email anda" id="email" required />
+         <input type="text" placeholder="isi username anda" id="username" required />
+         <input type="text" placeholder="isi no +62" id="phone" required />
+         <input type="password" placeholder="isi password anda" id="password" required />
+         <input type="password" placeholder="konfirmasi password anda" id="confirmPassword" required />
+         <button type="submit">DAFTAR</button>
+         <p>Sudah punya akun? <a href="index.html">Login di sini</a></p>
+        </form>
+    </div>
+
+    <div id="modal" class="modal">
+        <div class="modal-content">
+            <span class="close">×</span>
+            <p id="modal-message"></p>
+        </div>
+    </div>
+<script>
+    document.getElementById('registrationForm').addEventListener('submit', function(event) {
+        event.preventDefault();
+
+        const email = document.getElementById('email').value;
+        const username = document.getElementById('username').value;
+        const phone = document.getElementById('phone').value;
+        const password = document.getElementById('password').value;
+        const confirmPassword = document.getElementById('confirmPassword').value;
+        let registeredUsers = JSON.parse(localStorage.getItem('registeredUsers')) || [];
+        const isEmailRegistered = registeredUsers.some(user => user.email === email);
+        if (password !== confirmPassword) {
+            alert("Konfirmasi password tidak sesuai!");
+            return;
+        }
+        if (isEmailRegistered) {
+            alert('Email ini sudah terdaftar. Silakan login atau gunakan email lain.');
+            return;
+        }
+        const newUser = {
+            email: email,
+            username: username,
+            phone: phone,
+            password: password
+        };
+        registeredUsers.push(newUser);
+        localStorage.setItem('registeredUsers', JSON.stringify(registeredUsers));
+        // Simpan email pengguna yang berhasil daftar untuk login otomatis
+         localStorage.setItem('loggedInUser', JSON.stringify({ email: email}));
+        showModal("Pendaftaran Berhasil! Anda akan dialihkan ke halaman login.");
+    });
+    function showModal(message) {
+        const modal = document.getElementById('modal');
+        const modalMessage = document.getElementById('modal-message');
+        const closeBtn = document.querySelector('.close');
+        modalMessage.textContent = message;
+        modal.style.display = 'block';
+        gsap.from(modal, {
+            duration: 0.3,
+            opacity: 0,
+            scale: 0.8,
+            ease: "power1.out"
+        });
+            closeBtn.addEventListener('click', closeModal);
+            function closeModal() {
+            gsap.to(modal, {
+                duration: 0.3,
+                opacity: 0,
+                scale: 0.8,
+                ease: "power1.in",
+                  onComplete: () => {
+                    modal.style.display = 'none';
+                    window.location.href = "index.html";
+                }
+            });
+          }
+          window.addEventListener('click', function(event) {
+             if (event.target == modal) {
+                 closeModal();
+                }
+           });
+        }
+</script>
+</body>
+</html>

@@ -1,0 +1,129 @@
+<!DOCTYPE html>
+<html lang="id">
+  <head>
+    <title>LOGIN - API REST WANZ</title>
+    <link rel="stylesheet" href="styles.css" />
+     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" integrity="sha512-9usAa10IRO0HhonpyAIVpjrylPvoDwiPUiKdWk5t3PyolY1cOd4DSE0Ga+ri4AuTroPR5aQvXU9xC6qOPnzFeg==" crossorigin="anonymous" referrerpolicy="no-referrer" />
+  </head>
+  <body>
+    <div class="login">
+      <img src="profile.png" />
+      <h3>API WANZOFC</h3>
+      <h2>AYO LOGIN</h2>
+      <form class="login-form" id="loginForm">
+        <input type="text" placeholder="isi username anda" id="usernameInput"/>
+        <input type="password" placeholder="konfir password anda" id="passwordInput"/>
+        <button type="button" id="loginButton">LOGIN</button>
+         <div id="loadingSpinner" class="spinner-container" style="display:none;">
+              <i class="fas fa-circle-notch fa-spin"></i>
+         </div>
+        <a href="signup.html">belum ada akun?</a>
+      </form>
+    </div>
+    <script>
+        if (localStorage.getItem('isLoggedIn') === 'true') {
+            window.location.href = '../view/docs.html';
+        }
+        document.getElementById('loginButton').addEventListener('click', function() {
+            const username = document.getElementById('usernameInput').value;
+            const password = document.getElementById('passwordInput').value;
+            const loadingSpinner = document.getElementById('loadingSpinner');
+            loadingSpinner.style.display = 'flex';
+            let registeredUsers = JSON.parse(localStorage.getItem('registeredUsers')) || [];
+            let user = registeredUsers.find(user => user.username === username && user.password === password);
+              setTimeout(() => {
+                  if (user) {
+                      localStorage.setItem('isLoggedIn', 'true');
+                      window.location.href = '../view/docs.html';
+                  } else {
+                      alert('Username atau password salah!');
+                  }
+                loadingSpinner.style.display = 'none';
+              }, 2000);
+        });
+    </script>
+      <style>
+      .login {
+            text-align: center;
+            width: 300px;
+            margin: 100px auto;
+            padding: 20px;
+            border: 1px solid #ccc;
+            border-radius: 8px;
+        }
+        .login img {
+            width: 100px;
+            height: 100px;
+            border-radius: 50%;
+            margin-bottom: 20px;
+        }
+        .login h3 {
+            margin-bottom: 10px;
+            color: #333;
+        }
+        .login h2 {
+            margin-bottom: 20px;
+            color: #555;
+        }
+        .login-form {
+            display: flex;
+            flex-direction: column;
+        }
+        .login-form input {
+            margin-bottom: 10px;
+            padding: 10px;
+            border: 1px solid #ddd;
+            border-radius: 4px;
+        }
+        .login-form button {
+            padding: 10px;
+            background-color: #685aff;
+            color: white;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+        }
+         .spinner-container {
+            margin-top: 10px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+        .fa-spin {
+          -webkit-animation: fa-spin 2s infinite linear;
+          animation: fa-spin 2s infinite linear;
+        }
+        @-webkit-keyframes fa-spin {
+          0% {
+            -webkit-transform: rotate(0deg);
+            transform: rotate(0deg);
+          }
+          100% {
+            -webkit-transform: rotate(359deg);
+            transform: rotate(359deg);
+          }
+        }
+        @keyframes fa-spin {
+          0% {
+            -webkit-transform: rotate(0deg);
+            transform: rotate(0deg);
+          }
+          100% {
+            -webkit-transform: rotate(359deg);
+            transform: rotate(359deg);
+          }
+        }
+        .login-form button:hover {
+            background-color: #685aff;
+        }
+        .login-form a {
+            margin-top: 10px;
+            text-decoration: none;
+            color: #685aff;
+        }
+        .login-form a:hover {
+            text-decoration: underline;
+        }
+    </style>
+  </body>
+</html>
