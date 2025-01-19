@@ -38,7 +38,7 @@ app.enable('trust proxy');
 app.set("json spaces", 2);
 app.use(cors());
 app.use(secure);
-app.use(express.static("public"));
+// app.use(express.static("public"));  // Pindahkan ke bawah rute khusus
 app.set("views", __dirname + "/view");
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: true }));
@@ -52,9 +52,13 @@ app.get('/signup.html', (req, res) => {
   res.sendFile(path.join(__dirname, 'signup.html'));
 });
 
+// Melayani file di folder public (setelah rute khusus)
+app.use(express.static("public"));
+
 app.get('/profile.png', (req, res) => {
   res.sendFile(path.join(__dirname, 'profile.png'));
 });
+
 
 app.use('/', mainrouter);
 app.use('/api', apirouter);
