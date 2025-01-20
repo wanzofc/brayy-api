@@ -67,12 +67,17 @@ router.get('/testing', (req, res, next) => {
 })
 //wanzofc//
 router.get('/ai/codestral', async (req, res, next) => {
-    let text = req.query.text;
-    if (!text) return res.json({ status: false, message: "Text parameter is required" });
+    let text = req.query.text; // Mengambil parameter text dari query
+    if (!text) {
+        return res.json({ 
+            status: false, 
+            message: "Parameter 'text' wajib diisi" 
+        });
+    }
 
     const body = {
-        model: "mistral-7b", // Ganti jika ingin model lain
-        messages: [{ role: "user", content: text }],
+        model: "mistral-7b", // Model yang digunakan
+        messages: [{ role: "user", content: text }], // Input pengguna
         temperature: 0.7
     };
 
@@ -80,13 +85,13 @@ router.get('/ai/codestral', async (req, res, next) => {
         method: 'POST',
         headers: {
             'Content-Type': 'application/json',
-            'Authorization': 'Bearer 3fLPw6AKx2cF6XOSsiRIdlgGo2Kzszvs' // API key Codestral
+            'Authorization': 'Bearer 3fLPw6AKx2cF6XOSsiRIdlgGo2Kzszvs' // API key kamu
         },
         body: JSON.stringify(body)
     })
     .then(response => response.json())
     .then(async data => {
-        let message = data.choices[0].message.content; // Akses output dari response Codestral
+        let message = data.choices[0].message.content; // Akses pesan dari Codestral
         res.json({
             status: true,
             code: 200,
