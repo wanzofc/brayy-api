@@ -66,49 +66,61 @@ router.get('/testing', (req, res, next) => {
 	})
 })
 //wanzofc//
-router.get('/ai/codestral', async (req, res, next) => {
-    let text = req.query.text; // Mengambil parameter text dari query
+router.get('/ai/codestral', async (req, res) => {
+    let text = req.query.text; // Ambil parameter teks dari query
     if (!text) {
-        return res.json({ 
-            status: false, 
-            message: "Parameter 'text' wajib diisi" 
+        return res.json({
+            status: false,
+            message: "Parameter 'text' wajib diisi"
         });
     }
 
+    // Payload untuk API Codestral
     const body = {
-        model: "mistral-7b", // Model yang digunakan
-        messages: [{ role: "user", content: text }], // Input pengguna
-        temperature: 0.7
+        model: "mistral-7b", // Model default (ubah jika perlu)
+        messages: [{ role: "user", content: text }], // Teks yang dikirim
+        temperature: 0.7 // Kreativitas jawaban
     };
 
-    fetch('https://codestral.mistral.ai/v1/chat/completions', {
-        method: 'POST',
-        headers: {
-            'Content-Type': 'application/json',
-            'Authorization': 'Bearer 3fLPw6AKx2cF6XOSsiRIdlgGo2Kzszvs' // API key kamu
-        },
-        body: JSON.stringify(body)
-    })
-    .then(response => response.json())
-    .then(async data => {
-        let message = data.choices[0].message.content; // Akses pesan dari Codestral
-        res.json({
-            status: true,
-            code: 200,
-            result: message,
-            creator: creator
+    try {
+        // Fetch ke API Codestral
+        const response = await fetch('https://codestral.mistral.ai/v1/chat/completions', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+                'Authorization': 'Bearer 3fLPw6AKx2cF6XOSsiRIdlgGo2Kzszvs' // API Key
+            },
+            body: JSON.stringify(body) // Kirim payload
         });
-    })
-    .catch(e => {
-        console.error(e);
-        res.json({
+
+        const data = await response.json();
+
+        // Jika respons sukses
+        if (response.ok) {
+            return res.json({
+                status: true,
+                code: 200,
+                result: data.choices[0].message.content, // Hasil dari API
+                creator: creator
+            });
+        }
+
+        // Jika ada error dari API Codestral
+        return res.json({
+            status: false,
+            code: response.status,
+            message: data.error?.message || "Terjadi kesalahan pada API Codestral"
+        });
+
+    } catch (error) {
+        console.error("Fetch Error:", error);
+        return res.json({
             status: false,
             code: 500,
             message: "Internal Server Error"
         });
-    });
+    }
 });
-
 // ***AI ***
 router.get('/ai/wanzofc', async (req, res, next) => {
 	let text = req.query.text
