@@ -101,7 +101,7 @@ router.get('/ai/bard', async (req, res, next) => {
 router.get('/ai/gemini', async (req, res, next) => {
 	let text = req.query.text
 	if (!text) return res.json(loghandler.nottext)
-	fetch(encodeURI(`https://gemini-production.up.railway.app/?query=${text}&apikey=AIzaSyBkpO7eV5Qxps2EDixEtbWjLBXsfDfqsus`))
+	fetch(encodeURI(`https://wanz-tech.vercel.app/api/degreeguru?text=${text}`))
 		.then(response => response.json())
 		.then(async data => {
 			if (data.status !== true) {
