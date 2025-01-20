@@ -66,6 +66,44 @@ router.get('/testing', (req, res, next) => {
 	})
 })
 //wanzofc//
+router.get('/ai/codestral', async (req, res, next) => {
+    let text = req.query.text;
+    if (!text) return res.json({ status: false, message: "Text parameter is required" });
+
+    const body = {
+        model: "mistral-7b", // Ganti jika ingin model lain
+        messages: [{ role: "user", content: text }],
+        temperature: 0.7
+    };
+
+    fetch('https://codestral.mistral.ai/v1/chat/completions', {
+        method: 'POST',
+        headers: {
+            'Content-Type': 'application/json',
+            'Authorization': 'Bearer 3fLPw6AKx2cF6XOSsiRIdlgGo2Kzszvs' // API key Codestral
+        },
+        body: JSON.stringify(body)
+    })
+    .then(response => response.json())
+    .then(async data => {
+        let message = data.choices[0].message.content; // Akses output dari response Codestral
+        res.json({
+            status: true,
+            code: 200,
+            result: message,
+            creator: creator
+        });
+    })
+    .catch(e => {
+        console.error(e);
+        res.json({
+            status: false,
+            code: 500,
+            message: "Internal Server Error"
+        });
+    });
+});
+
 // ***AI ***
 router.get('/ai/wanzofc', async (req, res, next) => {
 	let text = req.query.text
