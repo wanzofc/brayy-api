@@ -102,7 +102,7 @@ router.get('/ai/bard', async (req, res, next) => {
 router.get('/degreeguru', async (req, res, next) => {
 	let text = req.query.text
 	if (!text) return res.json(loghandler.nottext)
-	fetch(encodeURI(`https://wanz-tech.vercel.app/api/degreeguru?message=${text}`))
+	fetch(encodeURI(`https://wanz-tech.vercel.app/api/degreeguru?message=halo bub`))
 		.then(response => response.json())
 		.then(async data => {
 			if (data.status !== true) {
