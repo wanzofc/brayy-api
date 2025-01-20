@@ -65,7 +65,24 @@ router.get('/testing', (req, res, next) => {
 		creator: creator
 	})
 })
-// *** AI ***
+//wanzofc//
+router.post('/api/tts', async (req, res) => {
+    try {
+        const { text, speaker = "AwanBrayy", language = "id" } = req.body;
+        
+        // Validasi input
+        if (!text) {
+            return res.status(400).json({
+                status: false,
+                code: 400,
+                message: "Text parameter is required"
+            });
+        }
+
+        // Generate unique filename
+        const outputFile = `tts_${Date.now()}.wav`;
+        const outputPath = path.join(__dirname, 'temp', outputFile);
+// ***AI ***
 router.get('/ai/wanzofc', async (req, res, next) => {
 	let text = req.query.text
 	if (!text) return res.json(loghandler.nottext)
@@ -108,7 +125,7 @@ router.get('/ai/gemini', async (req, res, next) => {
 				res.json(loghandler.error)
 			} else {
 				res.json({
-					status: true,
+				status: true,
 					code: 200,
 					result: data.result.message,
 					creator: creator
