@@ -66,22 +66,6 @@ router.get('/testing', (req, res, next) => {
 	})
 })
 //wanzofc//
-router.post('/api/tts', async (req, res) => {
-    try {
-        const { text, speaker = "AwanBrayy", language = "id" } = req.body;
-        
-        // Validasi input
-        if (!text) {
-            return res.status(400).json({
-                status: false,
-                code: 400,
-                message: "Text parameter is required"
-            });
-        }
-
-        // Generate unique filename
-        const outputFile = `tts_${Date.now()}.wav`;
-        const outputPath = path.join(__dirname, 'tmp', outputFile);
 // ***AI ***
 router.get('/ai/wanzofc', async (req, res, next) => {
 	let text = req.query.text
