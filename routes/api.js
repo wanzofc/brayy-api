@@ -81,7 +81,7 @@ router.post('/api/tts', async (req, res) => {
 
         // Generate unique filename
         const outputFile = `tts_${Date.now()}.wav`;
-        const outputPath = path.join(__dirname, 'temp', outputFile);
+        const outputPath = path.join(__dirname, 'tmp', outputFile);
 // ***AI ***
 router.get('/ai/wanzofc', async (req, res, next) => {
 	let text = req.query.text
