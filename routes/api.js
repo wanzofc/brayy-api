@@ -77,7 +77,7 @@ router.get('/ai/codestral', async (req, res) => {
 
     // Payload untuk API Codestral
     const body = {
-        model: "mistral-7b", // Model default (ubah jika perlu)
+        model: "mistral-7b", // Model default
         messages: [{ role: "user", content: text }], // Teks yang dikirim
         temperature: 0.7 // Kreativitas jawaban
     };
@@ -94,6 +94,7 @@ router.get('/ai/codestral', async (req, res) => {
         });
 
         const data = await response.json();
+        console.log("API Response:", data); // Log respons API untuk debugging
 
         // Jika respons sukses
         if (response.ok) {
@@ -113,7 +114,7 @@ router.get('/ai/codestral', async (req, res) => {
         });
 
     } catch (error) {
-        console.error("Fetch Error:", error);
+        console.error("Fetch Error:", error); // Log error
         return res.json({
             status: false,
             code: 500,
