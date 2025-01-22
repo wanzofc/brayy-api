@@ -66,7 +66,7 @@ router.get('/testing', (req, res, next) => {
 	})
 })
 //wanzofc//
-router.get('/ai/codestral', async (req, res) => {
+router.get('/api/ai/codestral', async (req, res) => {
     let text = req.query.text; // Ambil parameter teks dari query
     if (!text) {
         return res.json({
@@ -75,38 +75,35 @@ router.get('/ai/codestral', async (req, res) => {
         });
     }
 
-    // Payload untuk API Codestral
     const body = {
-        model: "mistral-7b", // Model default
-        messages: [{ role: "user", content: text }], // Teks yang dikirim
-        temperature: 0.7 // Kreativitas jawaban
+        model: "mistral-7b",
+        messages: [{ role: "user", content: text }],
+        temperature: 0.7
     };
 
     try {
-        // Fetch ke API Codestral
         const response = await fetch('https://codestral.mistral.ai/v1/chat/completions', {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json',
-                'Authorization': 'Bearer 3fLPw6AKx2cF6XOSsiRIdlgGo2Kzszvs' // API Key
+                'Authorization': 'Bearer 3fLPw6AKx2cF6XOSsiRIdlgGo2Kzszvs'
             },
-            body: JSON.stringify(body) // Kirim payload
+            body: JSON.stringify(body)
         });
 
         const data = await response.json();
-        console.log("API Response:", data); // Log respons API untuk debugging
+        console.log("HTTP Status Code:", response.status);
+        console.log("API Response:", data);
 
-        // Jika respons sukses
         if (response.ok) {
             return res.json({
                 status: true,
                 code: 200,
-                result: data.choices[0].message.content, // Hasil dari API
+                result: data.choices[0].message.content,
                 creator: creator
             });
         }
 
-        // Jika ada error dari API Codestral
         return res.json({
             status: false,
             code: response.status,
@@ -114,7 +111,7 @@ router.get('/ai/codestral', async (req, res) => {
         });
 
     } catch (error) {
-        console.error("Fetch Error:", error); // Log error
+        console.error("Fetch Error:", error);
         return res.json({
             status: false,
             code: 500,
