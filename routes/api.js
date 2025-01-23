@@ -66,7 +66,7 @@ router.get('/testing', (req, res, next) => {
 	})
 })
 //wanzofc//
-router.get('/api/ai/codestral', async (req, res) => {
+router.get('/ai/codestral', async (req, res) => {
     let text = req.query.text; // Ambil parameter teks dari query
     if (!text) {
         return res.json({
