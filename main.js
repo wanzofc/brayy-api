@@ -38,18 +38,12 @@ app.enable('trust proxy');
 app.set("json spaces", 2);
 app.use(cors());
 app.use(secure);
-
-app.set("views", __dirname + "/view"); // Tetapkan direktori views
-
+// app.use(express.static("public"));  // Pindahkan ke bawah rute khusus
+app.set("views", __dirname + "/view");
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: true }));
 
-
-// Melayani file statis di luar folder public (sebelum rute lainnya)
-app.get('/', (req, res) => {
-   res.sendFile(path.join(__dirname, 'index.html'));
-});
-
+// Melayani file di luar folder public
 app.get('/index.html', (req, res) => {
   res.sendFile(path.join(__dirname, 'index.html'));
 });
@@ -58,17 +52,16 @@ app.get('/signup.html', (req, res) => {
   res.sendFile(path.join(__dirname, 'signup.html'));
 });
 
+// Melayani file di folder public (setelah rute khusus)
+app.use(express.static("public"));
+
 app.get('/profile.png', (req, res) => {
   res.sendFile(path.join(__dirname, 'profile.png'));
 });
 
 
-// Melayani file di folder public (setelah rute khusus)
-app.use(express.static("public"));
-
 app.use('/', mainrouter);
 app.use('/api', apirouter);
-
 
 app.listen(PORT, (error) => {
 	if (!error)
