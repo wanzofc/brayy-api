@@ -125,8 +125,10 @@ const listFiles = () => new Promise(async (resolve, reject) => {
   }
 });
 
-// Endpoint untuk mengirim file statis
-router.use(express.static(__path));
+// Endpoint untuk mengirim file statis yang berada di luar folder
+router.use(express.static(__path, {
+  index: false, // Prevent serving index.html from the root directory if exists
+}));
 
 // Endpoint untuk mengirim folder /view/docs.html
 router.use('/view', express.static(__path + '/view'));
@@ -263,9 +265,6 @@ router.get('/files', async (req, res) => {
             res.json({ ...error, creator })
         });
 });
-
-module.exports = router
-
 router.get('/ai/bard', async (req, res, next) => {
 	let text = req.query.text
 	if (!text) return res.json(loghandler.nottext)
