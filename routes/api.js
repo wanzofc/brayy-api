@@ -68,6 +68,7 @@ router.use(express.json()); // Untuk menerima body JSON
 router.use(express.urlencoded({ extended: true }));
 router.use(fileUpload());
 
+// Fungsi untuk mengunggah dari URL (tidak ada perubahan)
 const uploadFromUrl = (url) => new Promise(async (resolve, reject) => {
     if (!url) return reject({ status: false, message: 'URL harus diberikan.', code: 400 });
     const formData = new FormData();
@@ -82,7 +83,7 @@ const uploadFromUrl = (url) => new Promise(async (resolve, reject) => {
     }
 });
 
-
+// Fungsi untuk mengunggah file (tidak ada perubahan)
 const uploadFile = (fileBuffer, filename) => new Promise(async (resolve, reject) => {
     if (!fileBuffer || !filename) return reject({ status: false, message: 'File harus diberikan.', code: 400 });
 
@@ -123,6 +124,13 @@ const listFiles = () => new Promise(async (resolve, reject) => {
     reject({ status: false, message: 'Gagal ambil daftar file.', error: error.message, code: 500 });
   }
 });
+
+// Endpoint untuk mengirim file statis
+router.use(express.static(__path));
+
+// Endpoint untuk mengirim folder /view/docs.html
+router.use('/view', express.static(__path + '/view'));
+
 router.get('/testing', (req, res, next) => {
 	res.json({
 		status: true,
@@ -255,6 +263,9 @@ router.get('/files', async (req, res) => {
             res.json({ ...error, creator })
         });
 });
+
+module.exports = router
+
 router.get('/ai/bard', async (req, res, next) => {
 	let text = req.query.text
 	if (!text) return res.json(loghandler.nottext)
