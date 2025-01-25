@@ -53,7 +53,7 @@ app.get('/signup.html', (req, res) => {
 });
 
 // Melayani file di folder public (setelah rute khusus)
-app.use(express.static("public"));
+app.use(express.static("view"));
 
 app.get('/profile.png', (req, res) => {
   res.sendFile(path.join(__dirname, 'profile.png'));
