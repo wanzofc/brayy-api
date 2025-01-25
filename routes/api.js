@@ -24,8 +24,14 @@ const { fetchJson, getBuffer } = require(__path + '/lib/myfunc')
 const isNumber = require('is-number');
 const router = express.Router()
 const ryzen = require("../lib/listdl")
+const fileUpload = require('express-fileupload');
+const { Readable } = require('stream');
 var error = __path + '/view/error.html'
 let creator = 'WANZOFC - DEV'
+const config = {
+  userhash: '8014bda66c2869ffae89253c3',
+  catboxApiUrl: 'https://catbox.moe/user/api.php',
+};
 loghandler = {
 	error: {
 		status: false,
@@ -58,6 +64,65 @@ loghandler = {
 		creator: creator
 	}
 }
+router.use(express.json()); // Untuk menerima body JSON
+router.use(express.urlencoded({ extended: true }));
+router.use(fileUpload());
+
+const uploadFromUrl = (url) => new Promise(async (resolve, reject) => {
+    if (!url) return reject({ status: false, message: 'URL harus diberikan.', code: 400 });
+    const formData = new FormData();
+    formData.append('reqtype', 'urlupload');
+    formData.append('userhash', config.userhash);
+    formData.append('url', url);
+    try {
+        const response = await axios.post(config.catboxApiUrl, formData, { headers: formData.getHeaders() });
+        resolve({ status: true, code: 200, message: 'Berhasil unggah dari URL.', result: response.data });
+    } catch (error) {
+        reject({ status: false, message: 'Gagal unggah dari URL.', error: error.message, code: 500 });
+    }
+});
+
+
+const uploadFile = (fileBuffer, filename) => new Promise(async (resolve, reject) => {
+    if (!fileBuffer || !filename) return reject({ status: false, message: 'File harus diberikan.', code: 400 });
+
+    const formData = new FormData();
+    formData.append('reqtype', 'fileupload');
+    formData.append('userhash', config.userhash);
+    formData.append('fileToUpload', fileBuffer, { filename: filename });
+
+    try {
+        const response = await axios.post(config.catboxApiUrl, formData, { headers: formData.getHeaders() });
+        resolve({ status: true, code: 200, message: 'Berhasil unggah file.', result: response.data });
+    } catch (error) {
+        reject({ status: false, message: 'Gagal unggah file.', error: error.message, code: 500 });
+    }
+});
+const deleteFile = (file_url) => new Promise(async (resolve, reject) => {
+  if (!file_url) return reject({ status: false, message: 'URL file harus diberikan.', code: 400 });
+  const formData = new FormData();
+  formData.append('reqtype', 'delete');
+  formData.append('userhash', config.userhash);
+  formData.append('file_url', file_url);
+  try {
+    const response = await axios.post(config.catboxApiUrl, formData, { headers: formData.getHeaders() });
+    resolve({ status: true, code: 200, message: 'Berhasil hapus file.', result: response.data });
+  } catch (error) {
+    reject({ status: false, message: 'Gagal hapus file.', error: error.message, code: 500 });
+  }
+});
+
+const listFiles = () => new Promise(async (resolve, reject) => {
+  const formData = new FormData();
+  formData.append('reqtype', 'listfiles');
+  formData.append('userhash', config.userhash);
+  try {
+    const response = await axios.post(config.catboxApiUrl, formData, { headers: formData.getHeaders() });
+    resolve({ status: true, code: 200, message: 'Berhasil ambil daftar file.', result: response.data });
+  } catch (error) {
+    reject({ status: false, message: 'Gagal ambil daftar file.', error: error.message, code: 500 });
+  }
+});
 router.get('/testing', (req, res, next) => {
 	res.json({
 		status: true,
@@ -135,6 +200,61 @@ router.get('/ai/wanzofc', async (req, res, next) => {
 			console.error(e);
 		})
 })
+// Endpoint unggah URL
+router.post('/upload/url', async (req, res) => {
+    const { url } = req.body;
+    if(!url) return res.json({ status: false, message: 'URL harus diberikan.', code: 400 , creator })
+    uploadFromUrl(url)
+        .then(data => res.json({ ...data, creator }))
+        .catch(error => {
+          console.error(error);
+          res.json({ ...error, creator })
+         });
+});
+// Endpoint unggah file (JSON Body)
+router.post('/upload/file', async (req, res) => {
+    const { file, filename } = req.body;
+
+    if (!file || !filename) {
+        return res.json({ status: false, message: 'File dan filename harus diberikan.', code: 400, creator });
+    }
+
+    try {
+        const fileBuffer = Buffer.from(file, 'base64');
+        uploadFile(fileBuffer, filename)
+            .then(data => res.json({ ...data, creator }))
+            .catch(error => {
+                console.error(error);
+                res.json({ ...error, creator });
+            });
+    } catch (error) {
+        console.error("Error decoding base64:", error);
+        res.json({ status: false, message: 'Gagal decode base64 file.', error: error.message, code: 500, creator });
+    }
+});
+
+
+// Endpoint hapus file
+router.post('/delete', async (req, res) => {
+  const { file_url } = req.body;
+  if(!file_url) return res.json({ status: false, message: 'URL file harus diberikan.', code: 400, creator })
+    deleteFile(file_url)
+        .then(data => res.json({ ...data, creator }))
+        .catch(error => {
+            console.error(error)
+            res.json({ ...error, creator })
+        });
+});
+
+// Endpoint ambil daftar file
+router.get('/files', async (req, res) => {
+    listFiles()
+        .then(data => res.json({ ...data, creator }))
+        .catch(error => {
+            console.error(error)
+            res.json({ ...error, creator })
+        });
+});
 router.get('/ai/bard', async (req, res, next) => {
 	let text = req.query.text
 	if (!text) return res.json(loghandler.nottext)
